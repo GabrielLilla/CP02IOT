@@ -1,24 +1,8 @@
-"""
-populate_db.py
---------------
-Script de cadastro inicial dos alunos no banco SQLite.
-Execute uma vez antes de rodar o smart_gym_cp2.py:
-
-    python populate_db.py
-
-Adicione ou remova alunos na lista ALUNOS abaixo conforme necessário.
-Para descobrir o UID do cartão, abra o Monitor Serial do Arduino IDE (9600 baud)
-e aproxime o cartão — o UID aparecerá no formato "XX XX XX XX".
-"""
-
 import sqlite3
 from datetime import datetime
 
 DB_PATH = 'smart_gym.db'
 
-# ---------------------------------------------------------------
-#  Tabelas
-# ---------------------------------------------------------------
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS alunos (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,10 +21,6 @@ CREATE TABLE IF NOT EXISTS logs_acesso (
 );
 """
 
-# ---------------------------------------------------------------
-#  Alunos cadastrados
-#  Formato: (nome, uid_do_cartao, exercicio, objetivo_de_reps)
-# ---------------------------------------------------------------
 ALUNOS = [
     ("Gabriel",  "2A 63 4C 73", "Agachamento", 10),
     ("Fernando", "43 B6 49 05", "Agachamento",  8),
@@ -49,9 +29,6 @@ ALUNOS = [
     ("Bruna",    "55 66 77 88", "Agachamento",  7),
 ]
 
-# ---------------------------------------------------------------
-#  Execução
-# ---------------------------------------------------------------
 def main():
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()

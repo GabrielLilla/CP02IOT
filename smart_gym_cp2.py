@@ -16,9 +16,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import os
 
-# ---------------------------------------------------------------
 #  CONFIGURAÇÕES
-# ---------------------------------------------------------------
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 DB_PATH        = 'smart_gym.db'
@@ -26,9 +24,7 @@ MODEL_PATH     = 'pose_landmarker_full.task'
 SERIAL_PORT    = 'COM5'   # ← Altere para a sua porta
 SERIAL_BAUD    = 9600
 
-# ---------------------------------------------------------------
-#  1. BANCO DE DADOS (SQLite)
-# ---------------------------------------------------------------
+#  BANCO DE DADOS (SQLite)
 
 def init_db():
     """Cria as tabelas se ainda não existirem e insere alunos de exemplo."""
@@ -55,7 +51,7 @@ def init_db():
         )
     ''')
 
-    # Insere alunos de exemplo (ignora se UID já existir)
+    # Insere alunos
     alunos_iniciais = [
         ("Lucas",  "2A 63 4C 73", "Agachamento", 5),
         ("Maria",  "43 B6 49 05", "Agachamento", 8),
@@ -95,9 +91,7 @@ def registrar_log(aluno_id: int, reps: int):
     con.close()
 
 
-# ---------------------------------------------------------------
-#  2. ESTADO GLOBAL COMPARTILHADO (thread-safe via Lock)
-# ---------------------------------------------------------------
+#  ESTADO GLOBAL COMPARTILHADO (thread-safe via Lock)
 
 class AppState:
     def __init__(self):
@@ -112,9 +106,7 @@ class AppState:
 
 state = AppState()
 
-# ---------------------------------------------------------------
-#  3. MEDIAPIPE
-# ---------------------------------------------------------------
+#  MEDIAPIPE
 
 base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
 options      = vision.PoseLandmarkerOptions(
@@ -140,9 +132,8 @@ def calcular_angulo(a, b, c):
     return angulo
 
 
-# ---------------------------------------------------------------
-#  4. THREAD DE CAPTURA / VISÃO COMPUTACIONAL
-# ---------------------------------------------------------------
+
+#  THREAD DE CAPTURA / VISÃO COMPUTACIONAL
 
 serial_buffer = ""
 
@@ -190,9 +181,8 @@ def thread_visao():
         with state.lock:
             est = state.estado
 
-        # --------------------------------------------------
+
         #  AGUARDANDO_ID
-        # --------------------------------------------------
         if est == "AGUARDANDO_ID":
             if arduino_ok:
                 uid = ler_id_serial(ser)
@@ -226,9 +216,7 @@ def thread_visao():
             cv2.putText(frame, msg, (15, h // 2),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 255), 2)
 
-        # --------------------------------------------------
         #  TREINO_EM_CURSO
-        # --------------------------------------------------
         elif est == "TREINO_EM_CURSO":
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             mp_image  = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
@@ -283,9 +271,7 @@ def thread_visao():
                     if state.contador_reps >= state.perfil['objetivo']:
                         state.estado = "TREINO_CONCLUIDO"
 
-        # --------------------------------------------------
         #  TREINO_CONCLUIDO
-        # --------------------------------------------------
         elif est == "TREINO_CONCLUIDO":
             cv2.putText(frame, "TREINO CONCLUIDO!", (w//2 - 160, h//2),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,255,0), 3)
@@ -320,9 +306,7 @@ def thread_visao():
     cv2.destroyAllWindows()
 
 
-# ---------------------------------------------------------------
-#  5. INTERFACE TKINTER (roda na thread principal)
-# ---------------------------------------------------------------
+#  INTERFACE TKINTER (roda na thread principal)
 
 class SmartGymGUI:
     COR_BG       = "#0d0d0d"
@@ -432,9 +416,7 @@ class SmartGymGUI:
         self.root.after(300, self._atualizar)
 
 
-# ---------------------------------------------------------------
-#  6. MAIN
-# ---------------------------------------------------------------
+#  MAIN
 
 if __name__ == "__main__":
     init_db()
