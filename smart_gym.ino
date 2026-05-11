@@ -3,7 +3,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define SS_PIN  10   // Pino SDA 
+#define SS_PIN  10   // Pino SDA
 #define RST_PIN  9   // Pino de Reset
 
 MFRC522 rfid(SS_PIN, RST_PIN);
