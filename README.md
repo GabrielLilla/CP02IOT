@@ -4,7 +4,7 @@ Sistema que identifica alunos via cartão RFID, registra acessos em banco de dad
 
 ## 🎥 Demonstração
 
-🔗 [Assista ao vídeo de demonstração]([https://youtube.com/shorts/nIlWluPvjMQ](https://youtube.com/shorts/siIfvRvGC_A?si=n2tdzzzglsZ_V33X))
+🔗 [Assista ao vídeo de demonstração](https://youtube.com/shorts/siIfvRvGC_A?si=n2tdzzzglsZ_V33X)
 
 ## 📋 Descrição
 
