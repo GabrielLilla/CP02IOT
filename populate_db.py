@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS logs_acesso (
 """
 
 ALUNOS = [
-    ("Gabriel",  "2A 63 4C 73", "Agachamento", 10),
-    ("Fernando", "43 B6 49 05", "Agachamento",  8),
-    ("Wesley",   "AA BB CC DD", "Agachamento",  6),
-    ("Guilherme","11 22 33 44", "Agachamento",  5),
+    ("Gabriel",  "C3 48 89 4F", "Agachamento", 10),
+    ("Fernando", "73 1D E4 FE", "Agachamento",  8),
+    ("Wesley",   "A9 F6 00 98", "Agachamento",  6),
+    ("Guilherme","D6 EE 4C 1F", "Agachamento",  5),
     ("Bruna",    "55 66 77 88", "Agachamento",  7),
 ]
 
